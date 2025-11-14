@@ -103,4 +103,10 @@ public class Fase4 implements IFase {
     public String getMensagemInicial() {
         return "Chuvas e Raios!\nCuidado com os Raios, drones e... Robôs?";
     }
+    
+    @Override
+    public String getMensagemVitoria() {
+        // Esta é a mensagem que você sugeriu!
+        return "Parabéns, héroi!\nVocê conseguiu vencer os raios e robôs!";
+    }
 }

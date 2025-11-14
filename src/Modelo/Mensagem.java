@@ -15,14 +15,32 @@ public class Mensagem extends Personagem {
     private int timer = 0;
     // Duração da mensagem (em ticks. 30 ticks * 150ms = 4.5 segundos)
     private static final int DURACAO = 30; 
+    private boolean isBlocking; // Esta mensagem pausa o jogo?
 
-    public Mensagem(String texto) {
-        // Usa uma imagem "invisível" (blackTile) e fica em (0,0)
+/**
+     * NOVO Construtor: cria uma mensagem que pode pausar o jogo.
+     * @param texto A mensagem
+     * @param pausaOJogo True se a lógica do jogo deve parar
+     */
+    public Mensagem(String texto, boolean pausaOJogo) {
         super("blackTile.png", 0, 0); 
         this.texto = texto;
         this.bTransponivel = true;
+        this.isBlocking = pausaOJogo;
+        
+        // IMPORTANTE: O pause é ativado pela Tela (Passo 5), não aqui.
     }
-
+    
+    // Helper para o Passo 5
+    public boolean isBlocking() {
+        return this.isBlocking;
+    }
+    
+    // Helper para o Passo 5
+    public String getTexto() {
+        return this.texto;
+    }
+    
     // <<-- MUDANÇA: Este é um caso especial.
     // O autoDesenho() foi renomeado para desenhar() e MANTÉM sua lógica,
     // pois sua única responsabilidade é desenhar o HUD.
@@ -57,7 +75,13 @@ public class Mensagem extends Personagem {
     public void atualizar(ArrayList<Personagem> faseAtual, Hero hero) {
         timer++;
         if (timer > DURACAO) {
-            // (Acesso global, mas é a forma que o projeto original usava)
+            // V-V-V- MUDANÇA CRÍTICA V-V-V
+            // Se esta era uma mensagem bloqueante, avisa a Tela para DESPAUSAR
+            if (this.isBlocking) {
+                Desenho.acessoATelaDoJogo().setGamePaused(false);
+            }
+            // ^-^-^- FIM DA MUDANÇA -^-^-^
+            
             Desenho.acessoATelaDoJogo().removePersonagem(this);
             return;
         }

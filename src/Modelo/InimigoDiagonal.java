@@ -29,7 +29,7 @@ public class InimigoDiagonal extends Personagem implements Serializable, Mortal 
     
     // (O 'aoColidirComHeroi()' da Onda 2 permanece)
     @Override
-    public String aoColidirComHeroi() {
+    public String aoColidirComHeroi(Hero hero) {
         return "HERO_DIED";
     }
 }

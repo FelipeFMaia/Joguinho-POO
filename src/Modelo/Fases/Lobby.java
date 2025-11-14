@@ -83,4 +83,9 @@ public class Lobby implements IFase {
     public String getMensagemInicial() { // fazer um if para imprimir uma mensagem diferente a depender da fase
         return "BEM VINDO AO PIOR JOGO DO MUNDO!!!\n";
     }
+    
+    @Override
+    public String getMensagemVitoria() {
+        return null; // O Lobby não tem mensagem de vitória
+    }
 }

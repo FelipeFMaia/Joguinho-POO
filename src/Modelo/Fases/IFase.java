@@ -30,4 +30,12 @@ public interface IFase {
      * @return A mensagem de imersão para o início da fase (ou null se não houver).
      */
     public String getMensagemInicial();
+    
+    /**
+    * Retorna a mensagem de vitória a ser exibida
+    * QUANDO o jogador COMPLETA esta fase.
+    * @return A mensagem de vitória.
+    */
+    public String getMensagemVitoria();
+
 }

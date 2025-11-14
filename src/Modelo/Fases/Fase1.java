@@ -3,9 +3,17 @@ package Modelo.Fases;
 import Modelo.*;
 import java.util.ArrayList;
 
+// V-V-V- IMPORTS NOVOS NECESSÁRIOS V-V-V
+import Modelo.Bau;
+import Modelo.Cadeado;
+import Modelo.Chave;
+// ^-^-^- FIM DOS IMPORTS NOVOS -^-^-^
+
 /**
  * Implementação da IFase para o Nível 1 (Água e Gelo).
  * Implementa a mecânica de 3 itens colecionáveis.
+ * * ATUALIZAÇÃO: Agora também inclui a "Sala de Bônus" (Side Quest)
+ * para teste.
  */
 public class Fase1 implements IFase {
 
@@ -16,19 +24,51 @@ public class Fase1 implements IFase {
         // 1. Adiciona o Herói
         fase.add(new Hero(getHeroSkin(), 1, 1));
         
-        // 2. Adiciona o PRIMEIRO Item-Chave
-        // (Usando "coracao.png" como placeholder, pois você o tem)
-        fase.add(new ItemChave("coracao.png", 1, 14)); // <<-- MUDANÇA (Apenas o primeiro fica)
-        //fase.add(new ItemChave("coracao.png", 14, 1));   // <<-- MUDANÇA (Movido para Coleta_1)
-        //fase.add(new ItemChave("coracao.png", 14, 14)); // <<-- MUDANÇA (Movido para Coleta_2)
+        // -----------------------------------------------------------------
+        // 2. MISSÃO PRINCIPAL (Lógica dos 3 Itens - Intocada)
+        // -----------------------------------------------------------------
         
-        // 3. Adiciona Inimigos Iniciais (Baleia)
-        // (Usando a classe Caveira com skin de "baleia.png" (placeholder))
-        // (Usando "skoot.png" como placeholder, patrulhando um quadrado 3x3)
-        fase.add(new Peixe("skoot.png", 5, 5, 2)); // linha, coluna, tamanhoDoLado
-        fase.add(new Baleia("caveira.png", 7, 7)); // (Usando caveira.png como placeholder de "baleia.png")
+        // 2a. Adiciona o PRIMEIRO Item-Chave (Coração)
+        fase.add(new ItemChave("coracao.png", 1, 14)); 
         
-        // 4. Adiciona Paredes do Mapa (Bordas)
+        // 2b. Adiciona Inimigos Iniciais
+        // (MOVEMOS O PEIXE para 5,10 para não bater na sala nova)
+        fase.add(new Peixe("skoot.png", 5, 10, 2)); // linha, coluna, tamanhoDoLado
+        fase.add(new Baleia("caveira.png", 7, 7)); 
+        
+        
+        // -----------------------------------------------------------------
+        // 3. SIDE QUEST (Lógica da Sala de Bônus - NOVA)
+        // -----------------------------------------------------------------
+
+        // 3a. Adiciona as Chaves (perto do start, para teste)
+        // (Usando "coracao.png" como placeholder da imagem da Chave)
+        fase.add(new Chave("coracao.png", 2, 1)); // Chave para a Porta
+        fase.add(new Chave("coracao.png", 3, 1)); // Chave para o Baú
+        
+        // 3b. Constrói a Sala de Bônus (no meio-esquerdo)
+        fase.add(new Parede("bricks.png", 3, 3)); // Parede Topo
+        fase.add(new Parede("bricks.png", 3, 4));
+        fase.add(new Parede("bricks.png", 3, 5));
+        fase.add(new Parede("bricks.png", 4, 5)); // Parede Direita
+        fase.add(new Parede("bricks.png", 5, 5));
+        fase.add(new Parede("bricks.png", 6, 5));
+        fase.add(new Parede("bricks.png", 6, 4)); // Parede Fundo
+        fase.add(new Parede("bricks.png", 6, 3));
+        fase.add(new Parede("bricks.png", 5, 3)); // Parede Esquerda
+        
+        // 3c. Adiciona a Porta (Cadeado)
+        // (Usando "bricks.png" como placeholder da imagem do Cadeado)
+        fase.add(new Cadeado("esfera.png", 4, 3)); // A porta está em (4,3)
+        
+        // 3d. Adiciona o Baú (dentro da sala)
+        // (Usando "esfera.png" como placeholder da imagem do Baú)
+        fase.add(new Bau("roboPink.png", 5, 4));
+        
+        
+        // -----------------------------------------------------------------
+        // 4. Adiciona Paredes do Mapa (Bordas - Intocadas)
+        // -----------------------------------------------------------------
         for (int i = 0; i < 16; i++) {
             fase.add(new Parede("bricks.png", 0, i)); // Usando bricks por enquanto
             fase.add(new Parede("bricks.png", 15, i));
@@ -41,6 +81,11 @@ public class Fase1 implements IFase {
         return fase;
     }
 
+    // =================================================================
+    // O RESTO DA LÓGICA DA FASE (MISSÃO PRINCIPAL)
+    // PERMANECE EXATAMENTE IGUAL.
+    // =================================================================
+    
     @Override
     public ArrayList<Personagem> getPersonagensColeta_1() {
         // "barreiras físicas surgem no mapa" (Paredes de Gelo)
@@ -73,7 +118,7 @@ public class Fase1 implements IFase {
     @Override
     public Personagem getPersonagemColeta_3() {
         // "sair por um portal"
-        Portal saida = new Portal("esfera.png", 3, 3); // (Usando esfera.png como placeholder)
+        Portal saida = new Portal("esfera.png", 1, 1); // (Usando esfera.png como placeholder)
         saida.setDestinoFase(0); // Destino 0 = Volta para o Lobby
         return saida;
     }
@@ -93,5 +138,10 @@ public class Fase1 implements IFase {
     @Override
     public String getMensagemInicial() {
         return "ÁGUA EM ABUNDANCIA!\nHerói, tome cuidado com os Peixes,\nPinguins e a BALEIA!!!";
+    }
+    
+    @Override
+    public String getMensagemVitoria() {
+        return "Você superou a inundação!\nFase da Água concluída!";
     }
 }

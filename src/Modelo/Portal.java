@@ -40,7 +40,7 @@ public class Portal extends Personagem {
     
     // <<-- MUDANÇA: Adicionada anotação @Override
     @Override
-    public String aoColidirComHeroi() {
+    public String aoColidirComHeroi(Hero hero) {
         if (destinoFase == 0) {
             return "FASE_CONCLUIDA";
         } else {

@@ -76,7 +76,7 @@ public class Chaser extends Personagem implements Serializable, Mortal {
     }
     
     @Override
-    public String aoColidirComHeroi() {
+    public String aoColidirComHeroi(Hero hero) {
         return "HERO_DIED";
     }
     

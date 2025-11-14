@@ -113,13 +113,14 @@ public abstract class Personagem implements Serializable {
         return this.pPosicao.moveLeft();
     }
     
-    /**
-     * Define o que acontece quando o Herói colide com este personagem.
-     * @return Uma string de status para o ControleDeJogo (ex: "HERO_DIED")
-     */
-    public String aoColidirComHeroi() {
-        return "GAME_RUNNING"; 
-    }
+/**
+ * Define o que acontece quando o Herói colide com este personagem.
+ * @param h O próprio Herói (para checar estado, ex: se tem chaves)
+ * @return Uma string de status para o ControleDeJogo (ex: "HERO_DIED")
+ */
+public String aoColidirComHeroi(Hero h) {
+    return "GAME_RUNNING"; 
+}
 
     
 }

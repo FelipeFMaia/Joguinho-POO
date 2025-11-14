@@ -28,7 +28,7 @@ public class ItemChave extends Personagem implements Coletavel {
     
     // <<-- MUDANÇA: Adicionada anotação @Override
     @Override
-    public String aoColidirComHeroi() {
+    public String aoColidirComHeroi(Hero hero) {
         return "ITEM_COLETADO";
     }
 }

@@ -38,4 +38,10 @@ public class CreditosFinais implements IFase {
     public String getMensagemInicial() {
         return "FIM DE JOGO!!!\nOBRIGADO POR JOGAR!";
     }
+    
+    @Override
+    public String getMensagemVitoria() {
+        // Esta é a mensagem que você sugeriu!
+        return "Autores:\nFelipe Freitas Maia\nFelipe Machuca\nMatheus Gauber\nRafael Borges";
+    }
 }

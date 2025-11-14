@@ -13,14 +13,30 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Hero extends Personagem implements Serializable{
+    private int numChaves = 0;
+
     public Hero(String sNomeImagePNG, int linha, int coluna) {
         super(sNomeImagePNG,linha, coluna);
     }
-
+    
+    public void adicionarChave() {
+        this.numChaves++;
+        System.out.println("Chave coletada! Total: " + this.numChaves);
+    }
+    
+    public boolean temChave() {
+        return this.numChaves > 0;
+    }
+    
+    public void usarChave() {
+        if (temChave()) {
+            this.numChaves--;
+            System.out.println("Chave usada! Restantes: " + this.numChaves);
+        }
+    }
     public void voltaAUltimaPosicao(){
         this.pPosicao.volta();
     }
-    
     
     public boolean setPosicao(int linha, int coluna){
         if(this.pPosicao.setPosicao(linha, coluna)){

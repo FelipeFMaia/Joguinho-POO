@@ -69,4 +69,11 @@ public class Fase5 implements IFase {
     public String getMensagemInicial() {
         return "FASE FINAL!\nHerói, você venceu os 4 desafios.\nSobreviva por 1 minuto!";
     }
+    
+    
+    @Override
+    public String getMensagemVitoria() {
+        // Esta é a mensagem que você sugeriu!
+        return "Parabéns, héroi!\nVocê conseguiu vencer essa jornada incrível! Você é demais!";
+    }
 }

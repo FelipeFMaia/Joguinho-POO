@@ -56,6 +56,8 @@ import Modelo.Portal;
 import Modelo.ItemChave;
 import Modelo.Mensagem;
 import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.util.Random;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener, DropTargetListener {
 
@@ -76,6 +78,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     private int faseTimer; // NOVO: Timer da fase (para sobrevivência)
     private int spawnTimer; // NOVO: Timer para criar inimigos na Fase 5
     private java.util.Set<Integer> fasesConcluidas; // NOVO: A "Memória" do jogo
+    private boolean isGamePaused = false;
+    private int idFaseAtual = -1;
+    
     
     public Tela() {
         Desenho.setCenario(this);
@@ -93,7 +98,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.fasesConcluidas = new java.util.HashSet<>();
         
         this.faseAtual = new ArrayList<Personagem>(); // Inicia a lista vazia
-        this.iniciarFase(0); // Inicia o jogo no Lobby (Nível 0)
+        this.iniciarFase(this.idFaseAtual); // Inicia o jogo no Lobby (Nível 0)
         
         // NOVO: Carrega a imagem do coração para o HUD
         try {
@@ -112,43 +117,56 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     /**
      * NOVO MÉTODO:
      * Centraliza a lógica de carregar, reiniciar ou trocar de fase.
-     * @param novoNivel O número da fase a ser carregada.
+     * @param idFase O número da fase a ser carregada.
      */
-    public void iniciarFase(int novoNivel) {
-        this.nivelAtual = novoNivel;
-        this.itensColetados = 0; 
-        this.faseTimer = 0; 
-        this.spawnTimer = 0; 
-        
-        // 1. Pega o objeto da Fase
-        this.configFaseAtual = gFase.getFase(this.nivelAtual);
-        
-        // ==========================================================
-        // NOVO "BRIDGE" DE LÓGICA:
-        // Se a fase que estamos carregando é o Lobby,
-        // nós o "atualizamos" com a lista de fases concluídas.
-        if (this.configFaseAtual instanceof Modelo.Fases.Lobby) {
-            ((Modelo.Fases.Lobby) this.configFaseAtual).atualizarFasesConcluidas(this.fasesConcluidas);
-        }
-        // ==========================================================
-        
-        // 2. Carrega os personagens iniciais
+    public void iniciarFase(int idFase) {
+        // Limpa a fase antiga
         this.faseAtual.clear();
-        this.faseAtual = this.configFaseAtual.carregarPersonagensIniciais();
-        
-        // 3. Define o tema (background e skin)
+        this.teclasPressionadas.clear();
+
+        // Salva o histórico de IDs
+        int idFaseAnterior = this.idFaseAtual; // De onde viemos
+        this.idFaseAtual = idFase; // Para onde vamos
+
+        // Carrega a nova configuração de fase
+        this.configFaseAtual = gFase.getFase(this.idFaseAtual);
+        if (this.configFaseAtual == null) {
+            System.err.println("ERRO: Tentando carregar fase inexistente ID: " + this.idFaseAtual);
+            return;
+        }
+
+        // Carrega os personagens da nova fase
+        this.faseAtual.addAll(this.configFaseAtual.carregarPersonagensIniciais());
+
+        // Define o background
         this.backgroundTile = this.configFaseAtual.getBackgroundTile();
-        if (getHero() != null) { 
-            getHero().setSkin(this.configFaseAtual.getHeroSkin());
-            this.atualizaCamera();
-        } else if (this.nivelAtual != 6) { 
-             System.out.println("ERRO: Fase " + this.nivelAtual + " não carregou um Herói!");
+
+        // --- LÓGICA DE MENSAGEM (A GRANDE MUDANÇA) ---
+
+        String msgParaMostrar = null;
+
+        // CASO 1: Estamos voltando ao Lobby (ID 0) vindo de uma fase (ID > 0)?
+        if (this.idFaseAtual == 0 && idFaseAnterior > 0) {
+            // Sim! Busque a mensagem de VITÓRIA da fase ANTERIOR.
+            IFase configFaseAntiga = gFase.getFase(idFaseAnterior);
+            if(configFaseAntiga != null){
+                msgParaMostrar = configFaseAntiga.getMensagemVitoria();
+            }
+        } 
+        // CASO 2: Qualquer outra situação (Início do jogo, Lobby -> Fase, Fase -> Fase)
+        else {
+            // Apenas mostre a mensagem INICIAL da fase ATUAL.
+            msgParaMostrar = this.configFaseAtual.getMensagemInicial();
         }
-        
-        String msg = this.configFaseAtual.getMensagemInicial();
-        if (msg != null && !msg.isEmpty()) {
-            this.addPersonagem(new Mensagem(msg));
+
+        // Mostra a mensagem (se ela existir)
+        if (msgParaMostrar != null && !msgParaMostrar.isEmpty()) {
+            // Usando nosso sistema de pausa que já implementamos!
+            this.addPersonagem(new Mensagem(msgParaMostrar, true));
         }
+
+        // Reseta a pontuação de coleta (lógica dos 3 itens)
+        this.itensColetados = 0;
     }
     
     public Hero getHero() {
@@ -173,6 +191,26 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     public void addPersonagem(Personagem umPersonagem) {
+        // V-V-V- LÓGICA NOVA (O "PORTEIRO") V-V-V
+        if (umPersonagem instanceof Mensagem) {
+            Mensagem novaMsg = (Mensagem) umPersonagem;
+
+            // Se o jogo JÁ ESTÁ pausado por outra mensagem...
+            if (this.isGamePaused) {
+                // ... IGNORAMOS a nova mensagem para evitar overlap.
+                System.out.println("WARN: Jogo pausado, mensagem nova ignorada: " + novaMsg.getTexto());
+                return; // Sai do método, não adiciona a mensagem
+            }
+
+            // Se o jogo NÃO está pausado, mas esta MENSAGEM quer pausar...
+            if (novaMsg.isBlocking()) {
+                // ...nós ativamos a pausa AGORA.
+                this.setGamePaused(true);
+            }
+        }
+        // ^-^-^- FIM DA LÓGICA NOVA -^-^-^
+
+        // Adiciona o personagem (seja a msg ou qualquer outro)
         faseAtual.add(umPersonagem);
     }
 
@@ -184,6 +222,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         return g2;
     }
 
+    @Override
     public void paint(Graphics gOld) {
         Graphics g = this.getBufferStrategy().getDrawGraphics();
         g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
@@ -210,60 +249,92 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         
         // --- LÓGICA DE JOGO MODIFICADA ---
         if (!this.faseAtual.isEmpty()) {
-            
-            // <<-- MUDANÇA: PASSO 1 - ATUALIZAR LÓGICA (IA, Timers, Movimentos)
-            this.cj.atualizarTudo(faseAtual, getHero());
-            
-            // <<-- MUDANÇA: PASSO 2 - PROCESSAR COLISÕES E ESTADO DO JOGO
-            String status = this.cj.processaTudo(faseAtual);
-            
-            // <<-- MUDANÇA: PASSO 3 - DESENHAR TUDO
-            this.cj.desenharTudo(faseAtual); // Renomeado de desenhaTudo
-            
-            // Age de acordo com o status
-            switch (status) {
-                case "HERO_DIED":
-                    this.vidas--;
-                    if (this.vidas <= 0) {
-                        this.gameOver();
-                    } else {
-                        this.reiniciarFase();
-                    }
-                    break;
-                case "ITEM_COLETADO":
-                    this.processarColeta(); // Chama a lógica de 3 itens
-                    break;
-                
-                // Lógica de Portais (do Lobby)
-                case "PORTAL_FASE_0":
-                    this.iniciarFase(0); // Vai para o Lobby
-                    break;
-                case "PORTAL_FASE_1":
-                    this.iniciarFase(1); // Vai para Fase 1
-                    break;
-                case "PORTAL_FASE_2":
-                    this.iniciarFase(2); // Vai para Fase 2
-                    break;
-                case "PORTAL_FASE_3":
-                    this.iniciarFase(3); // Vai para Fase 3
-                    break;
-                case "PORTAL_FASE_4":
-                    this.iniciarFase(4); // Vai para Fase 4
-                    break;
-                case "PORTAL_FASE_5":
-                    this.iniciarFase(5); // Vai para Fase 5
-                    break;
-                
-                case "FASE_CONCLUIDA": // Status do Portal de saída (destino 0)
-                    this.proximaFase();
-                    break;
 
-                case "GAME_RUNNING":
-                    // Não faz nada, o jogo continua
-                    break;
-            }
+            // <<-- PASSO 1: ATUALIZAR LÓGICA (SEMPRE RODA) >>
+            // Esta chamada agora está FORA do 'if' de pausa
+            // e passa o estado de pausa para o controlador.
+            this.cj.atualizarTudo(faseAtual, getHero(), this.isGamePaused);
+            
+            // <<-- PASSO 2: PROCESSAR COLISÕES (SÓ RODA SE NÃO PAUSADO) >>
+            // Este 'if' agora protege apenas a lógica de jogo, não o timer.
+            if (!this.isGamePaused) {
+                
+                String status = this.cj.processaTudo(faseAtual);
+                
+                // PASSO 3: AGIR DE ACORDO COM O STATUS
+                switch (status) {
+                    case "HERO_DIED":
+                        this.vidas--;
+                        if (this.vidas <= 0) {
+                            this.gameOver();
+                        } else {
+                            this.reiniciarFase();
+                        }
+                        break;
+                        
+                    case "ITEM_COLETADO":
+                        this.processarColeta(); // Lógica principal da fase (3 itens)
+                        break;
+
+                    // --- NOSSAS NOVAS MECÂNICAS ---
+                    case "REJEITADO":
+                        getHero().voltaAUltimaPosicao(); // Empurra o herói (porta/baú trancado)
+                        break;
+                        
+                    case "CHAVE_COLETADA":
+                        getHero().adicionarChave(); // Adiciona chave no "inventário"
+                        this.pontuacao += 10;
+                        break;
+                        
+                    case "BAU_ABERTO":
+                        processarAberturaBau(); // Roda a lógica de sorte/azar
+                        break;
+                    // --- FIM DAS NOVAS MECÂNICAS ---
+
+                    // Lógica de Portais (do Lobby)
+                    case "PORTAL_FASE_0":
+                        this.iniciarFase(0); // Vai para o Lobby
+                        break;
+                    case "PORTAL_FASE_1":
+                        this.iniciarFase(1); // Vai para Fase 1
+                        break;
+                    case "PORTAL_FASE_2":
+                        this.iniciarFase(2); // Vai para Fase 2
+                        break;
+                    case "PORTAL_FASE_3":
+                        this.iniciarFase(3); // Vai para Fase 3
+                        break;
+                    case "PORTAL_FASE_4":
+                        this.iniciarFase(4); // Vai para Fase 4
+                        break;
+                    case "PORTAL_FASE_5":
+                        this.iniciarFase(5); // Vai para Fase 5
+                        break;
+                    
+                    case "FASE_CONCLUIDA": // Status do Portal de saída (destino 0)
+                        this.proximaFase();
+                        break;
+
+                    case "GAME_RUNNING":
+                        // Não faz nada, o jogo continua
+                        break;
+                } // Fim do switch(status)
+                
+            } // <--- Fim do "if (!this.isGamePaused)"
+            // -----------------------------------------------------------------
+            // FIM DA LÓGICA DE PAUSE
+            // -----------------------------------------------------------------
+            
+            
+            // PASSO 4: DESENHAR TUDO
+            // O desenho ocorre MESMO SE ESTIVER PAUSADO.
+            // É isso que permite a Mensagem (bloqueante) aparecer!
+            this.cj.desenharTudo(faseAtual);
+            
         } else if (this.nivelAtual == 6) {
              // LÓGICA DA FASE 6 (Créditos)
+             g2.setColor(java.awt.Color.WHITE);
+             g2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 18));
              g2.drawString("PARABENS, VOCE ZEROU O JOGO!", 180, 200);
              g2.drawString("Criado por: [Seu Nome Aqui] e [Nome Colega 1]", 180, 250);
         }
@@ -337,6 +408,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     
     public void keyPressed(KeyEvent e) {
+        if (this.isGamePaused) {
+            return; // Ignora qualquer tecla se o jogo estiver pausado
+        }
+        
         try {
             if (teclasPressionadas.contains(e.getKeyCode()))
                     return;
@@ -407,6 +482,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }    
 
     public void mousePressed(MouseEvent e) {
+        if (this.isGamePaused) {
+            return; // Ignora clique do mouse se o jogo estiver pausado
+        }
+        
+        
         /* Clique do mouse desligado*/
         int x = e.getX();
         int y = e.getY();
@@ -418,7 +498,43 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         repaint();
     }
+    
+    /**
+     * Controla a lógica de "Sorte ou Azar" do baú de bônus.
+     */
+    private void processarAberturaBau() {
+        Random rand = new Random();
+        int sorte = rand.nextInt(100); // Sorteia um número de 0 a 99
 
+        if (sorte < 20) { // 20% de chance
+            // Recompensa Máxima: Pular a Fase!
+            addPersonagem(new Mensagem("Um Gerador de Portal!\nVocê escapou da fase!", true));
+            this.proximaFase(); // Usa a lógica que já temos!
+
+        } else if (sorte < 60) { // 40% de chance (de 20 a 59)
+            // Recompensa Ótima: Vida Extra!
+            this.vidas++;
+            addPersonagem(new Mensagem("Uma Poção Mágica!\nVocê recuperou uma vida!", true));
+
+        } else if (sorte < 90) { // 30% de chance (de 60 a 89)
+            // Recompensa Boa: Pontos!
+            this.pontuacao += 200;
+            addPersonagem(new Mensagem("Um Tesouro!\n+200 Pontos!", true));
+            
+        } else { // 10% de chance (de 90 a 99)
+            // Piada (Azar, mas sem punição)
+            addPersonagem(new Mensagem("O baú estava vazio...\n...exceto por esta aranha\ninofensiva. Que chato.", true));
+        }
+    }
+    
+    public boolean isGamePaused() {
+    return this.isGamePaused;
+}
+
+    public void setGamePaused(boolean paused) {
+        this.isGamePaused = paused;
+    }
+    
     public void reiniciarFase() {
         System.out.println("Voce morreu! Vidas restantes: " + this.vidas);
         this.iniciarFase(this.nivelAtual); // Apenas recarrega o nível atual

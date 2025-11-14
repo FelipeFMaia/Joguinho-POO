@@ -101,4 +101,10 @@ public class Fase2 implements IFase {
     public String getMensagemInicial() {
         return "FOGO, MUITO FOGOO...!\n\nHerói, tome cuidade para não se queimar.\n\nSobreviva!";
     }
+    
+    @Override
+    public String getMensagemVitoria() {
+        // Esta é a mensagem que você sugeriu!
+        return "Parabéns, héroi!\nVocê conseguiu vencer o calor!";
+    }
 }

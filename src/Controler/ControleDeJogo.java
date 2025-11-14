@@ -17,12 +17,24 @@ public class ControleDeJogo {
             e.get(i).desenhar(); // <<-- MUDANÇA: Chamando o novo método desenhar()
     }
     
-    // <<-- MUDANÇA: Novo método para ATUALIZAR a lógica de IA
-    public void atualizarTudo(ArrayList<Personagem> umaFase, Hero hero) {
+    public void atualizarTudo(ArrayList<Personagem> umaFase, Hero hero, boolean isGamePaused) {
         // (Note que o Heroi não precisa de um 'atualizar' proativo, 
         // mas alguns personagens, como o Chaser, precisam saber onde ele está)
         for (int i = 0; i < umaFase.size(); i++) {
-            umaFase.get(i).atualizar(umaFase, hero);
+            Personagem p = umaFase.get(i);
+
+            // SE O JOGO ESTIVER PAUSADO:
+            if (isGamePaused) {
+                // Só atualiza as Mensagens (para o timer delas funcionar e o jogo despausar)
+                if (p instanceof Modelo.Mensagem) { 
+                    p.atualizar(umaFase, hero);
+                }
+            } 
+            // SE O JOGO ESTIVER RODANDO:
+            else {
+                // Atualiza TODO MUNDO (Inimigos, Projéteis, etc.)
+                p.atualizar(umaFase, hero);
+            }
         }
     }
     
@@ -36,13 +48,22 @@ public class ControleDeJogo {
             if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
                 
                 // 1. Pergunta ao personagem o que fazer na colisão
-                String resultadoColisao = pIesimoPersonagem.aoColidirComHeroi();
+                String resultadoColisao = pIesimoPersonagem.aoColidirComHeroi(hero);
+                
+                if (resultadoColisao.equals("REJEITADO")) {
+                    hero.voltaAUltimaPosicao(); // Empurra o herói de volta
+                    return "GAME_RUNNING"; // Mas o jogo continua
+                }
                 
                 // 2. Trata os casos especiais (remoção de item)
                 if (resultadoColisao.equals("ITEM_COLETADO")) {
                     umaFase.remove(pIesimoPersonagem); 
                     return "ITEM_COLETADO"; 
-                
+                    
+                } else if (resultadoColisao.equals("CHAVE_COLETADA")) {
+                    umaFase.remove(pIesimoPersonagem); // A REMOÇÃO É AQUI!
+                    return "CHAVE_COLETADA"; // Retorna imediatamente (evita erro)
+
                 } else if (resultadoColisao.equals("PONTOS")) {
                     // (Lógica para coletáveis genéricos, se tivéssemos)
                     umaFase.remove(pIesimoPersonagem);

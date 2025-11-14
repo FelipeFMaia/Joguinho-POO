@@ -39,7 +39,7 @@ public abstract class Projetil extends Personagem implements Serializable, Morta
     }
     
     @Override
-    public String aoColidirComHeroi() {
+    public String aoColidirComHeroi(Hero hero) {
         return "HERO_DIED";
     }
 }

@@ -98,4 +98,13 @@ public class Fase3 implements IFase {
     public String getMensagemInicial() {
         return "TERRAS PANTANOSAS!\nCuidado com os Jacarés e... Mosquitos?";
     }
+    
+    @Override
+    public String getMensagemVitoria() {
+        // Esta é a mensagem que você sugeriu!
+        return "Parabéns, héroi!\nVocê conseguiu vencer o pântano!";
+    }
+    
+    
+    
 }
