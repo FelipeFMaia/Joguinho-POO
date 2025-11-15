@@ -24,10 +24,12 @@ public abstract class Personagem implements Serializable {
     private ComportamentoMovimento meuMovimento;
     private ComportamentoAtaque meuAtaque;
     protected boolean bEstaVivo = true;
+    protected Posicao pPosicaoAnterior;
 
     protected Personagem(String sNomeImagePNG, int linha, int coluna) {
         this.pPosicao = new Posicao(1, 1);
         this.bTransponivel = false;
+        this.pPosicaoAnterior = new Posicao(linha, coluna);
         
         // <<-- MUDANÇA: Define o comportamento padrão (parado e sem ataque)
         // Classes filhas vão sobrescrever isso em seus construtores
@@ -55,6 +57,10 @@ public abstract class Personagem implements Serializable {
 
     public boolean isbTransponivel() {
         return bTransponivel;
+    }
+    
+    public void voltaAUltimaPosicao() {
+        this.pPosicao.setPosicao(pPosicaoAnterior.getLinha(), pPosicaoAnterior.getColuna());
     }
 
     public void setbTransponivel(boolean bTransponivel) {
@@ -105,20 +111,33 @@ public abstract class Personagem implements Serializable {
         return pPosicao.setPosicao(linha, coluna);
     }
 
+    // O NOVO código em Personagem.java
     public boolean moveUp() {
+        // 1. Salva a posição ATUAL em pPosicaoAnterior
+        this.pPosicaoAnterior.setPosicao(this.pPosicao.getLinha(), this.pPosicao.getColuna());
+        // 2. Move-se para a nova posição
         return this.pPosicao.moveUp();
     }
 
     public boolean moveDown() {
+        // 1. Salva a posição ATUAL em pPosicaoAnterior
+        this.pPosicaoAnterior.setPosicao(this.pPosicao.getLinha(), this.pPosicao.getColuna());
+        // 2. Move-se para a nova posição
         return this.pPosicao.moveDown();
     }
 
-    public boolean moveRight() {
-        return this.pPosicao.moveRight();
+    public boolean moveLeft() {
+        // 1. Salva a posição ATUAL em pPosicaoAnterior
+        this.pPosicaoAnterior.setPosicao(this.pPosicao.getLinha(), this.pPosicao.getColuna());
+        // 2. Move-se para a nova posição
+        return this.pPosicao.moveLeft();
     }
 
-    public boolean moveLeft() {
-        return this.pPosicao.moveLeft();
+    public boolean moveRight() {
+        // 1. Salva a posição ATUAL em pPosicaoAnterior
+        this.pPosicaoAnterior.setPosicao(this.pPosicao.getLinha(), this.pPosicao.getColuna());
+        // 2. Move-se para a nova posição
+        return this.pPosicao.moveRight();
     }
     
 /**

@@ -29,11 +29,39 @@ public class ControleDeJogo {
                 if (p instanceof Modelo.Mensagem) { 
                     p.atualizar(umaFase, hero);
                 }
-            } 
+            }
             // SE O JOGO ESTIVER RODANDO:
             else {
                 // Atualiza TODO MUNDO (Inimigos, Projéteis, etc.)
                 p.atualizar(umaFase, hero);
+            }
+            
+            // Esta verificação é para personagens NÃO-HERÓIS (i > 0)
+            // que NÃO SÃO TRANSPONÍVEIS (como o Boss, Chasers, etc.)
+            if (i > 0 && !p.isbTransponivel()) {
+                
+                // Agora, verifica se 'p' colidiu com qualquer outro objeto sólido
+                for (int j = 0; j < umaFase.size(); j++) {
+                    
+                    // Não precisa checar colisão consigo mesmo
+                    if (i == j) {
+                        continue; 
+                    }
+                    
+                    Personagem outro = umaFase.get(j);
+
+                    // Se o 'outro' objeto também não for transponível (ex: Parede, ou outro Inimigo)
+                    // E as posições são iguais (colisão)...
+                    if (!outro.isbTransponivel() && p.getPosicao().igual(outro.getPosicao())) {
+                        
+                        // ...Manda o personagem 'p' de volta para a última posição.
+                        // Este é o mesmo mecanismo usado pelo Herói!
+                        p.voltaAUltimaPosicao();
+                        
+                        // Já colidiu e voltou, não precisa continuar a checar outros objetos
+                        break; 
+                    }
+                }
             }
             
             // Após atualizar, checa se a flag 'bEstaVivo' foi setada para false
