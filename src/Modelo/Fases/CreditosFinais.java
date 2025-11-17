@@ -7,11 +7,8 @@ import Modelo.Personagem;
 import Modelo.Portal;
 import java.util.ArrayList;
 
-/**
- * Fase 6: Tela de Créditos.
- * Implementada como uma fase real, jogável, que não pausa
- * e tem um portal de volta ao Lobby.
- */
+
+//Tela de Créditos. Implementada como uma fase real, jogável, que não pausa
 public class CreditosFinais implements IFase {
 
     @Override
@@ -92,3 +89,4 @@ public class CreditosFinais implements IFase {
     }
 
 }
+
