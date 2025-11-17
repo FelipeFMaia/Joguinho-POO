@@ -3,9 +3,7 @@ package Modelo.Fases;
 import Modelo.Personagem;
 import java.util.ArrayList;
 
-/**
- * Interface (Contrato) Polimórfica para cada Fase.
- */
+//Interface (Contrato) Polimórfica para cada Fase.
 public interface IFase {
     
     // Carrega os personagens iniciais (Heroi, inimigos, etc)
@@ -26,16 +24,10 @@ public interface IFase {
     // Retorna a skin do herói para esta fase
     //public String getHeroSkin();
     
-    /**
-     * @return A mensagem de imersão para o início da fase (ou null se não houver).
-     */
+   // A mensagem de imersão para o início da fase (ou null se não houver).
     public String getMensagemInicial();
     
-    /**
-    * Retorna a mensagem de vitória a ser exibida
-    * QUANDO o jogador COMPLETA esta fase.
-    * @return A mensagem de vitória.
-    */
+    // Retorna a mensagem de vitória a ser exibida
     public String getMensagemVitoria();
 
 }
