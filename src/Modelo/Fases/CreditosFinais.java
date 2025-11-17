@@ -7,7 +7,6 @@ import Modelo.Personagem;
 import Modelo.Portal;
 import java.util.ArrayList;
 
-
 //Tela de Créditos. Implementada como uma fase real, jogável, que não pausa
 public class CreditosFinais implements IFase {
 
@@ -89,4 +88,5 @@ public class CreditosFinais implements IFase {
     }
 
 }
+
 
