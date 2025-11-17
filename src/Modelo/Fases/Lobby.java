@@ -3,10 +3,7 @@ package Modelo.Fases;
 import Modelo.*;
 import java.util.ArrayList;
 
-/**
- * Implementação da IFase para o Nível 0 (Lobby).
- * Contém os portas para as outras fases.
- */
+// Lobby. Contém os portas para as outras fases.
 public class Lobby implements IFase {
     private java.util.Set<Integer> fasesConcluidas;
     
@@ -14,10 +11,10 @@ public class Lobby implements IFase {
     public ArrayList<Personagem> carregarPersonagensIniciais() {
         ArrayList<Personagem> fase = new ArrayList<>();
         
-        // 1. Adiciona o Herói
+        // Adiciona o Herói
         fase.add(new Hero("Heroi.png", 5, 2)); // Posição central
         
-        // 2. Adiciona as Portas 1-4
+        // Adiciona as Portas 1-4
         Portal p1 = new Portal("ZPortaLobby.png", 2, 3); 
         p1.setDestinoFase(1); 
         fase.add(p1);
@@ -34,7 +31,7 @@ public class Lobby implements IFase {
         p4.setDestinoFase(4); 
         fase.add(p4);
 
-        // 3. LÓGICA DE UNLOCK DA FASE 5
+        // Lógica para liberar a fase 5 (final).
         // Verifica se a "memória" não é nula e se contém 4 fases concluídas
         if (this.fasesConcluidas != null && this.fasesConcluidas.size() >= 4) {
             System.out.println("PARABENS! Portal para a ultima fase esta aberto!");
@@ -44,7 +41,7 @@ public class Lobby implements IFase {
             fase.add(p5);
         }
 
-        // 4. Adiciona as Paredes
+        // Adiciona as Paredes
         for (int i = 0; i < 12; i++) {
             fase.add(new Parede("LobbyParede.png", 0, i));
             fase.add(new Parede("LobbyParede.png", 11, i));
@@ -54,7 +51,7 @@ public class Lobby implements IFase {
             fase.add(new Parede("LobbyParede.png", i, 11));
         }
         
-        // 5. Completa a área externa com tiles pretos
+        // Completa a área externa com tiles pretos
         for (int i = 0; i < 12; i++) {
             fase.add(new Parede("ZPisoPreto.png", 12, i));
             fase.add(new Parede("ZPisoPreto.png", 13, i));
@@ -81,7 +78,7 @@ public class Lobby implements IFase {
 
     @Override
     public String getBackgroundTile() {
-        return "LobbyPiso.png"; // Fundo da caverna
+        return "LobbyPiso.png";
     }
 
     public void atualizarFasesConcluidas(java.util.Set<Integer> fases) {
@@ -97,4 +94,5 @@ public class Lobby implements IFase {
     public String getMensagemVitoria() {
         return null; // O Lobby não tem mensagem de vitória
     }
+
 }
