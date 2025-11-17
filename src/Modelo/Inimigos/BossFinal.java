@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 // Chefão Final
-// Alterna entre 2 estados (Perseguir e Atirar)
+// Alterna entre 2 comportamentos (Perseguir e Atirar)
 public class BossFinal extends Personagem implements Serializable, Mortal {
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
     
     private static final int INTERVALO_MUNICAO = (5 * 10);
     
-    // Define quanto tempo cada "fase" (comportamento) do boss dura
+    // Define quanto tempo cada comportamentos do boss dura
     // (100 ticks * 150ms = 15 segundos por fase)
     private static final int TEMPO_POR_FASE = 20; 
 
@@ -42,27 +42,27 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
 
         // Isso força o boss a se reposicionar antes de atirar.
         setComportamentoMovimento(new MovimentoChaser());
-        setComportamentoAtaque(new AtaqueNulo()); // Fase 1: Apenas persegue
+        setComportamentoAtaque(new AtaqueNulo()); // Comportamento 1: Apenas persegue
     }
 
     @Override
     public void atualizar(ArrayList<Personagem> faseAtual, Hero hero) {
-        // 1. Executa o comportamento de movimento e ataque atuais
+        // Executa o comportamento de movimento e ataque atuais
         super.atualizar(faseAtual, hero);
 
-        // 2. Atualiza o timer da fase do Boss
+        // Atualiza o timer da fase do Boss
         timerComportamento++;
 
-        // 3. Verifica se é hora de mudar de comportamento
+        // Verifica se é hora de mudar de comportamento
         if (timerComportamento > TEMPO_POR_FASE) {
             timerComportamento = 0; // Reseta o timer
             faseAtualDoBoss++;
             
-            if (faseAtualDoBoss > 2) { // Agora só temos 2 fases
+            if (faseAtualDoBoss > 2) { // 2 comportamento
                 faseAtualDoBoss = 1;
             }
             
-            // Chama o método que aplica a nova estratégia
+            // Chama o método que aplica o novo comportamento
             mudarComportamento(faseAtualDoBoss);
         }
         
@@ -77,7 +77,7 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
     }
 
     private void mudarComportamento(int novaFase) {
-        System.out.println("BOSS MUDOU PARA A FASE: " + novaFase);
+        System.out.println("BOSS MUDOU PARA O COMPORTAMENTO: " + novaFase);
         
         switch (novaFase) {
             case 1 -> {
@@ -132,10 +132,7 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
         return "HERO_DIED"; // Faz o herói morrer ao encostar
     }
     
-    /**
-     * Tenta encontrar uma posição aleatória válida no mapa para
-     * adicionar um item de Municao.
-     */
+    // Tenta encontrar uma posição aleatória válida no mapa para adicionar um item de Municao.
     private void spawnarMunicao() {
         Random rand = new Random();
         Posicao posSpawn = new Posicao(0, 0);
@@ -173,4 +170,5 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
             System.out.println("Municao dropada em: " + posSpawn.getLinha() + "," + posSpawn.getColuna());
         }
     }
+
 }
