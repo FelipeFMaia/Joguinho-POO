@@ -26,22 +26,22 @@ public class AtaqueEmCruz implements Serializable, ComportamentoAtaque {
 
     @Override
     public void executar(Personagem p, ArrayList<Personagem> faseAtual, Hero hero) {
-        // 1. Lógica do Timer
+        // Lógica do Timer
         contador++;
         
-        // 2. Se o timer não chegou, não faz nada
+        // Se o timer não chegou, não faz nada
         if (contador < INTERVALO) {
             return;
         }
 
-        // 3. O timer chegou
+        // O timer chegou
         contador = 0; // Reseta o timer
 
-        // 4. Define o ponto de nascimento dos projéteis.
+        // Define o ponto de nascimento dos projéteis.
         int linha = p.getPosicao().getLinha();
         int coluna = p.getPosicao().getColuna();
 
-        // 5. Cria os quatro projéteis
+        // Cria os quatro projéteis
         Personagem pCima = new ProjetilCima(
             this.nomeImagemProjetil, linha - 1, coluna
         );
@@ -58,7 +58,7 @@ public class AtaqueEmCruz implements Serializable, ComportamentoAtaque {
             this.nomeImagemProjetil, linha, coluna + 1
         );
 
-        // 6. Adiciona os projéteis ao jogo
+        // Adiciona os projéteis ao jogo
         Desenho.acessoATelaDoJogo().addPersonagem(pCima);
         Desenho.acessoATelaDoJogo().addPersonagem(pBaixo);
         Desenho.acessoATelaDoJogo().addPersonagem(pEsquerda);
