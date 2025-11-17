@@ -17,10 +17,10 @@ public class Fase4 implements IFase {
         try (FileInputStream fis = new FileInputStream("fase4_layout.dat");
              ObjectInputStream serializador = new ObjectInputStream(fis)) {
 
-            // 1. Carrega o objeto de save do arquivo
+            // Carrega o objeto de save do arquivo
             Tela.SaveState save = (Tela.SaveState) serializador.readObject();
 
-            // 2. Adiciona todos os personagens do save na lista da fase
+            // Adiciona todos os personagens do save na lista da fase
             fase.addAll(save.faseAtual);
 
         } catch (Exception ex) {
@@ -105,4 +105,5 @@ public class Fase4 implements IFase {
     public String getMensagemVitoria() {
         return "Ufa, finalmente um pouco de luz!\nVocê escapou da caverna.";
     }
+
 }
