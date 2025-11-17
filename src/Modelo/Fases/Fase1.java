@@ -18,10 +18,10 @@ public class Fase1 implements IFase {
         try (FileInputStream fis = new FileInputStream("fase1_layout.dat");
              ObjectInputStream serializador = new ObjectInputStream(fis)) {
 
-            // 1. Carrega o objeto de save do arquivo
+            // Carrega o objeto de save do arquivo
             SaveState save = (SaveState) serializador.readObject();
 
-            // 2. Adiciona todos os personagens do save na lista da fase
+            // Adiciona todos os personagens do save na lista da fase
             fase.addAll(save.faseAtual);
 
         } catch (Exception ex) {
@@ -93,3 +93,4 @@ public class Fase1 implements IFase {
         return "Você superou a neve o gelo \ne encontrou os artefatos!\nFase concluída!";
     }
 }
+
