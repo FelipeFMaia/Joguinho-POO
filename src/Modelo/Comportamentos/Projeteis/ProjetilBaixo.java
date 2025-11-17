@@ -2,11 +2,7 @@ package Modelo.Comportamentos.Projeteis;
 
 import java.io.Serializable;
 
-/**
- * Projétil que se move para BAIXO.
- * Herda a lógica de ser 'Mortal' e de se auto-remover 
- * da classe abstrata Projetil.
- */
+// Projétil que se move para BAIXO.
 public class ProjetilBaixo extends Projetil implements Serializable {
     private static final long serialVersionUID = 1L;
             
@@ -14,10 +10,6 @@ public class ProjetilBaixo extends Projetil implements Serializable {
         super(sNomeImagePNG, linha, coluna);
     }
 
-    /**
-     * Implementa o "buraco" da classe pai.
-     * Define a lógica de movimento específica deste projétil.
-     */
     @Override
     public boolean move() {
         // Tenta mover para baixo. Se falhar (bateu na borda), retorna false.
