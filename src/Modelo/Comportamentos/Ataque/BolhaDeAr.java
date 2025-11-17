@@ -3,7 +3,7 @@ package Modelo.Comportamentos.Ataque;
 import Modelo.Comportamentos.Projeteis.ProjetilCima;
 import java.io.Serializable;
 
-// Implementação exclusiva para o ataque da Morsa
+// Implementação para o ataque da Morsa
 public class BolhaDeAr extends ProjetilCima implements Serializable { 
     private static final long serialVersionUID = 1L;
             
@@ -11,3 +11,4 @@ public class BolhaDeAr extends ProjetilCima implements Serializable {
         super(sNomeImagePNG, linha, coluna);
     }
 }
+
