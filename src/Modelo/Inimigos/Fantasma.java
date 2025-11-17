@@ -20,7 +20,6 @@ public class Fantasma extends Personagem implements Serializable, Mortal {
     
     @Override
     public String aoColidirComHeroi(Hero h) {
-        return "HERO_DIED"; // Isso fará com que processaTudo retorne "HERO_DIED"
+        return "HERO_DIED";
     }
-
 }
