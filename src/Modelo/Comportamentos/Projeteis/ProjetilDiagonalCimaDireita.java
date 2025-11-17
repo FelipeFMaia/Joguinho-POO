@@ -2,11 +2,7 @@ package Modelo.Comportamentos.Projeteis;
 
 import java.io.Serializable;
 
-/**
- * Projétil que se move na diagonal, para CIMA e DIREITA.
- * Herda a lógica de ser 'Mortal' e de se auto-remover 
- * da classe abstrata Projetil.
- */
+// Projétil que se move na diagonal, para CIMA e DIREITA. Usado no ataque em V.
 public class ProjetilDiagonalCimaDireita extends Projetil implements Serializable {
     private static final long serialVersionUID = 1L;
             
@@ -14,10 +10,6 @@ public class ProjetilDiagonalCimaDireita extends Projetil implements Serializabl
         super(sNomeImagePNG, linha, coluna);
     }
 
-    /**
-     * Implementa o "buraco" da classe pai.
-     * Define a lógica de movimento específica deste projétil.
-     */
     @Override
     public boolean move() {
         // Tenta mover para cima. Se falhar (bateu na borda), retorna false.
