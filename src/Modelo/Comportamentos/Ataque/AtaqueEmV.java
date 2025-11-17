@@ -24,22 +24,22 @@ public class AtaqueEmV implements Serializable, ComportamentoAtaque {
 
     @Override
     public void executar(Personagem p, ArrayList<Personagem> faseAtual, Hero hero) {
-        // 1. Lógica do Timer (igual ao AtaqueAtirador)
+        // Lógica do Timer
         contador++;
         
-        // 2. Se o timer não chegou, não faz nada
+        // Se o timer não chegou, não faz nada
         if (contador < INTERVALO) {
             return;
         }
 
-        // 3. O timer chegou.
+        // O timer chegou.
         contador = 0; // Reseta o timer
 
-        // 4. Define o ponto de "nascimento" dos projéteis.
+        // Define o ponto de "nascimento" dos projéteis.
         int linhaSpawn = p.getPosicao().getLinha();
         int colunaSpawn = p.getPosicao().getColuna() + 1; // +1 para não nascer em cima do atirador
 
-        // 5. Cria os dois projéteis
+        // Cria os dois projéteis
         Personagem pCima = new ProjetilDiagonalCimaDireita(
             this.nomeImagemProjetil, linhaSpawn, colunaSpawn
         );
@@ -48,7 +48,7 @@ public class AtaqueEmV implements Serializable, ComportamentoAtaque {
             this.nomeImagemProjetil, linhaSpawn, colunaSpawn
         );
 
-        // 6. Adiciona os projéteis ao jogo
+        // Adiciona os projéteis ao jogo
         Desenho.acessoATelaDoJogo().addPersonagem(pCima);
         Desenho.acessoATelaDoJogo().addPersonagem(pBaixo);
     }
