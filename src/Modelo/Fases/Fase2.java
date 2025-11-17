@@ -17,10 +17,10 @@ public class Fase2 implements IFase {
         try (FileInputStream fis = new FileInputStream("fase2_layout.dat");
              ObjectInputStream serializador = new ObjectInputStream(fis)) {
 
-            // 1. Carrega o objeto de save do arquivo
+            // Carrega o objeto de save do arquivo
             SaveState save = (SaveState) serializador.readObject();
 
-            // 2. Adiciona todos os personagens do save na lista da fase
+            // Adiciona todos os personagens do save na lista da fase
             fase.addAll(save.faseAtual);
 
         } catch (Exception ex) {
@@ -106,4 +106,5 @@ public class Fase2 implements IFase {
     public String getMensagemVitoria() {
         return "Parabéns, héroi!\nVocê conseguiu vencer o calor!"; //
     }
+
 }
