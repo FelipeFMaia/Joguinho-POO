@@ -41,10 +41,9 @@ public class ControleDeJogo {
                     Personagem outro = umaFase.get(j);
 
                     // Se o 'outro' objeto também não for transponível e as posições são iguais (colisão).
-                    if (!outro.isbTransponivel() && p.getPosicao().igual(outro.getPosicao())) {
-                        // Manda o personagem 'p' de volta para a última posição.
+                    if (j > 0 && !outro.isbTransponivel() && p.getPosicao().igual(outro.getPosicao())) {
+                        // Manda o personagem 'p' de volta para a última posição (ex: bateu numa parede)
                         p.voltaAUltimaPosicao();
-                        // Já colidiu e voltou, não precisa continuar a checar outros objetos
                         break; 
                     }
                 }

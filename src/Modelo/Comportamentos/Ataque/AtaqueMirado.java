@@ -14,7 +14,7 @@ public class AtaqueMirado implements Serializable, ComportamentoAtaque {
     private int contador = 0;
     
     // Cooldown do ataque
-    private static final int INTERVALO = 30;    
+    private static final int INTERVALO = 10;    
     private final String nomeImagemProjetil;
 
     public AtaqueMirado(String sNomeImagePNG) {

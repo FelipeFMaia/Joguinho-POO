@@ -45,6 +45,10 @@ public class Fase1 implements IFase {
         fase.add(new PortaFechada("ZPortaVelha.png",14,32));
         fase.add(new PortaFechada("ZPortaVelha.png",3,29));
         fase.add(new Artefato("GeloArtefato.png", 0, 6));
+        fase.add(new Municao("HeroiProjetil.png", 7, 2));
+        fase.add(new Municao("HeroiProjetil.png", 15, 9));
+        fase.add(new Municao("HeroiProjetil.png", 32, 32));
+        fase.add(new Municao("HeroiProjetil.png", 2, 48));
         
         return fase;
     }
@@ -54,7 +58,8 @@ public class Fase1 implements IFase {
         ArrayList<Personagem> mods = new ArrayList<>();
         mods.add(new Penguim("GeloPinguim.png", 17, 17));
         mods.add(new Artefato("GeloArtefato.png", 13, 39));
-        mods.add(new Urso("GeloUrso.png", 14, 36));        
+        mods.add(new Municao("HeroiProjetil.png", 15, 9));
+        mods.add(new Urso("GeloUrso.png", 18, 35));        
         return mods;
     }
 

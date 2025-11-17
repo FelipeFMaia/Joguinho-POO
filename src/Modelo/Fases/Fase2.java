@@ -42,6 +42,11 @@ public class Fase2 implements IFase {
         fase.add(new PortaFechada("ZPortaVelha.png",6,9));
         fase.add(new PortaFechada("ZPortaVelha.png",27,27));
         fase.add(new Bau("ZBau.png",27,20));
+        
+        fase.add(new Municao("HeroiProjetil.png", 7, 2));
+        fase.add(new Municao("HeroiProjetil.png", 15, 9));
+        fase.add(new Municao("HeroiProjetil.png", 32, 32));
+        fase.add(new Municao("HeroiProjetil.png", 2, 48));
 
         // Bolas de fogo caindo do ceu
         fase.add(new SpawnerBolaFogo(0, 0));

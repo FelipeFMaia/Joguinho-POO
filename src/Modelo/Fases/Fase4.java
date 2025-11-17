@@ -52,6 +52,11 @@ public class Fase4 implements IFase {
         fase.add(new PortaFechada("ZPortaVelha.png",19,38));
         fase.add(new PortaFechada("ZPortaVelha.png",37,39));
         
+        fase.add(new Municao("HeroiProjetil.png", 7, 2));
+        fase.add(new Municao("HeroiProjetil.png", 16, 9));
+        fase.add(new Municao("HeroiProjetil.png", 32, 32));
+        fase.add(new Municao("HeroiProjetil.png", 2, 48));
+        
         return fase;
     }
 
@@ -62,6 +67,7 @@ public class Fase4 implements IFase {
         mods.add(new Artefato("CavernaArtefato.png", 46,14));
         mods.add(new Fantasma("CavernaFantasma.png", 2,26));        
         mods.add(new Morcego("CavernaMorcego.png", 3,47));
+        mods.add(new Municao("HeroiProjetil.png", 48, 48));
         return mods;
     }
 
@@ -73,6 +79,8 @@ public class Fase4 implements IFase {
         mods.add(new Fantasma("CavernaFantasma.png", 2,29));
          mods.add(new Fantasma("CavernaFantasma.png", 43,46));
         mods.add(new Artefato("CavernaArtefato.png", 26,41));
+        mods.add(new Municao("HeroiProjetil.png", 48, 48));
+        mods.add(new Municao("HeroiProjetil.png", 41, 11));
         return mods;
     }
 

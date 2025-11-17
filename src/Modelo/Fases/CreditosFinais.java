@@ -60,7 +60,12 @@ public class CreditosFinais implements IFase {
     @Override
     public String getMensagemInicial() {
         // Esta mensagem SIM, vai pausar o jogo
-        return "PARABENS! VOCE ZEROU O JOGO!";
+        return "PARABENS! VOCE ZEROU O JOGO!\n\n"
+                + "Desenvolvedores:\n"
+                + "Felipe Freitas Maia\n"
+                + "Felipe Garbelotti Machuca\n"
+                + "Matheus Acquesta Gaubeur\n"
+                + "Rafael Borges Brosco\n";
     }
 
     // --- Métodos da Interface que não usamos aqui ---

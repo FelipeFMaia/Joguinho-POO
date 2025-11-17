@@ -22,8 +22,8 @@ public class GerenciadorFase {
     }
 
     public IFase getFase(int numeroFase) {
-        // Pega a fase do mapa.
-        // Se não encontrar (ex: nivel 7), retorna o Lobby
+        // Pode testar cada fase separadamente setando aqui abaixo, o certo é iniciar no lobby
+        // Lobby(), Fase1(), Fase2(), Fase3(), Fase4(), Fase5(), CreditosFinais()
         return this.mapaDeConfiguracoesDeFase.getOrDefault(numeroFase, new Lobby());
     }
 }

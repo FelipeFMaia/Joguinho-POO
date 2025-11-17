@@ -8,10 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Um projétil que é disparado em direção a uma posição-alvo.
+ * Um projétil que é disparado em direção a uma posição-alvo (a posicao do herói).
  * Ele calcula sua trajetória (vetor dx, dy) uma vez e a segue.
- * Herda de Personagem (como ProjetilHeroi) pois sua lógica de 
- * 'atualizar' é customizada.
+ * Herda de Personagem (como ProjetilHeroi)
  */
 public class ProjetilMirado extends Personagem implements Serializable, Mortal {
     private static final long serialVersionUID = 1L;
@@ -21,7 +20,7 @@ public class ProjetilMirado extends Personagem implements Serializable, Mortal {
 
     // Lógica de velocidade (para não se mover a cada tick)
     private int contadorMovimento = 0;
-    private static final int VELOCIDADE = 5; // Move-se na mesma velocidade dos Patrulheiros
+    private static final int VELOCIDADE = 1;
 
     /**
      * @param sNomeImagePNG Imagem do projétil

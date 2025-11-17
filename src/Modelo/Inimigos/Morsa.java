@@ -6,6 +6,8 @@ import Auxiliar.Posicao;
 import Modelo.Comportamentos.Ataque.BolhaDeAr;
 import Modelo.Personagem;
 import java.io.Serializable;
+import Modelo.Hero;
+import Modelo.Mortal;
 
 class FabricaBolha implements IFabricaProjetil {
     @Override
@@ -14,7 +16,7 @@ class FabricaBolha implements IFabricaProjetil {
     }
 }
 
-public class Morsa extends Personagem implements Serializable {
+public class Morsa extends Personagem implements Serializable, Mortal {
     private static final long serialVersionUID = 1L;
     
     public Morsa(String sNomeImagePNG, int linha, int coluna) {
@@ -24,6 +26,11 @@ public class Morsa extends Personagem implements Serializable {
         setComportamentoAtaque(
             new ComportamentoAtaqueAtirador(new FabricaBolha())
         );
+    }
+    
+    @Override
+    public String aoColidirComHeroi(Hero h) {
+        return "HERO_DIED"; // Isso fará com que processaTudo retorne "HERO_DIED"
     }
 
 }

@@ -273,6 +273,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                             this.vidas = 10;
                             this.pontuacao = 0;
                             this.fasesConcluidas.clear();
+                            this.itensColetados = 0;
                             this.idFaseAtual = 0;
                             this.configFaseAtual = gFase.getFase(this.idFaseAtual);
                             if(this.configFaseAtual != null) { 
@@ -288,6 +289,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                         } else {
                             // Lógica de Perder Vida (Recarregar fase)
                             System.out.println("Voce morreu! Vidas restantes: " + this.vidas);
+                            this.itensColetados = 0;
                             this.configFaseAtual = gFase.getFase(this.idFaseAtual);
                             if(this.configFaseAtual != null) { 
                                 this.backgroundTile = this.configFaseAtual.getBackgroundTile();
@@ -321,6 +323,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     case "PORTAL_FASE_3" -> this.iniciarFase(3);
                     case "PORTAL_FASE_4" -> this.iniciarFase(4);
                     case "PORTAL_FASE_5" -> this.iniciarFase(5);
+                    case "PORTAL_FASE_6" -> this.iniciarFase(6);
                         
                     case "FASE_CONCLUIDA" -> this.proximaFase();
                     case "GAME_RUNNING" -> {}
@@ -452,6 +455,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 save.itensColetados = this.itensColetados;
                 save.fasesConcluidas = this.fasesConcluidas;
                 save.backgroundTile = this.backgroundTile;
+                save.municao = getHero().getNumMunicao();
 
                 try (FileOutputStream fos = new FileOutputStream("POO.dat");
                      ObjectOutputStream serializador = new ObjectOutputStream(fos)) {
@@ -472,6 +476,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     this.vidas = save.vidas;
                     this.pontuacao = save.pontuacao;
                     this.itensColetados = save.itensColetados;
+                    
                
                     this.fasesConcluidas.clear();
                     this.fasesConcluidas.addAll(save.fasesConcluidas);
@@ -479,6 +484,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     this.backgroundTile = save.backgroundTile;
 
                     this.configFaseAtual = gFase.getFase(this.idFaseAtual);
+                    
+                    getHero().setMunicao(save.municao);
                     
                     System.out.println("Jogo Carregado!");
                     
@@ -675,7 +682,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         public int pontuacao;
         public int itensColetados;
         public Set<Integer> fasesConcluidas;
-        public String backgroundTile; 
+        public String backgroundTile;
+        public int municao;
     }
     
     

@@ -1,15 +1,20 @@
 package Modelo.Inimigos;
 
+import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Auxiliar.Posicao;
+import Controler.Tela;
 import Modelo.Comportamentos.Ataque.*;
 import Modelo.Comportamentos.Movimento.*;
 import Modelo.Hero;
 import Modelo.Mensagem;
 import Modelo.Mortal;
+import Modelo.Municao;
 import Modelo.Personagem;
 import Modelo.Portal;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 // Chefão Final
 // Alterna entre 2 estados (Perseguir e Atirar)
@@ -19,11 +24,13 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
     private int vida;
     private int faseAtualDoBoss;
     private int timerComportamento;
+    private int timerMunicao = 0;
+    
+    private static final int INTERVALO_MUNICAO = (5 * 10);
     
     // Define quanto tempo cada "fase" (comportamento) do boss dura
     // (100 ticks * 150ms = 15 segundos por fase)
-    // <<-- MUDANÇA: Reduzido de 200 para 100 para ficar mais dinâmico
-    private static final int TEMPO_POR_FASE = 100; 
+    private static final int TEMPO_POR_FASE = 20; 
 
     public BossFinal(String sNomeImagePNG, int linha, int coluna) {
         super(sNomeImagePNG, linha, coluna);
@@ -57,6 +64,15 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
             
             // Chama o método que aplica a nova estratégia
             mudarComportamento(faseAtualDoBoss);
+        }
+        
+        timerMunicao++; // Incrementa o timer de munição
+        
+        if (timerMunicao > INTERVALO_MUNICAO) {
+            timerMunicao = 0; // Reseta o timer
+            
+            // Chama o método auxiliar para criar a munição
+            this.spawnarMunicao();
         }
     }
 
@@ -99,15 +115,62 @@ public class BossFinal extends Personagem implements Serializable, Mortal {
         int coluna = this.getPosicao().getColuna();
         
         // Cria o portal de saída
-        Portal saida = new Portal("esfera.png", linha, coluna);
+        Portal saida = new Portal("ZPortaFinal.png", linha, coluna);
         
-        // Destino 0 (Lobby).
-        saida.setDestinoFase(0); 
+        // Ir para Créditos Finais
+        saida.setDestinoFase(6); 
         
         // Adiciona o portal e a mensagem ao jogo
         Desenho.acessoATelaDoJogo().addPersonagem(saida);
         Desenho.acessoATelaDoJogo().addPersonagem(
             new Mensagem("CHEFE DERROTADO!\n\nEntre no portal...", true)
         );
+    }
+    
+    @Override
+    public String aoColidirComHeroi(Hero h) {
+        return "HERO_DIED"; // Faz o herói morrer ao encostar
+    }
+    
+    /**
+     * Tenta encontrar uma posição aleatória válida no mapa para
+     * adicionar um item de Municao.
+     */
+    private void spawnarMunicao() {
+        Random rand = new Random();
+        Posicao posSpawn = new Posicao(0, 0);
+        
+        // Precisamos acessar a Tela para verificar se a posição é válida
+        Tela tela = Desenho.acessoATelaDoJogo();
+        if (tela == null) return; // Segurança
+        
+        // Tenta achar um lugar válido (ex: 10 tentativas)
+        // (Isso evita um loop infinito se o mapa estiver cheio)
+        int tentativas = 0;
+        boolean achouLugar = false;
+        
+        while (tentativas < 10 && !achouLugar) {
+            // Sorteia uma posição
+            int linha = rand.nextInt(Consts.RES);
+            int coluna = rand.nextInt(Consts.RES);
+            posSpawn.setPosicao(linha, coluna);
+            
+            // Pergunta à Tela se esta posição é válida (não é uma parede)
+            if (tela.ehPosicaoValida(posSpawn)) {
+                achouLugar = true;
+            }
+            tentativas++;
+        }
+
+        // Se encontrou um lugar válido, cria a munição
+        if (achouLugar) {
+            // Criar munição
+            Municao novaMunicao = new Municao("HeroiProjetil.png", posSpawn.getLinha(), posSpawn.getColuna());
+            
+            // Adiciona a munição ao jogo
+            tela.addPersonagem(novaMunicao);
+            
+            System.out.println("Municao dropada em: " + posSpawn.getLinha() + "," + posSpawn.getColuna());
+        }
     }
 }

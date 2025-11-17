@@ -4,6 +4,13 @@ import Modelo.Inimigos.BossFinal;
 import Modelo.*;
 import java.util.ArrayList;
 
+import java.util.Random;
+import Modelo.Municao;
+import Auxiliar.Posicao;
+import Auxiliar.Consts;
+import Auxiliar.Desenho;
+// ... (outros imports)
+
 public class Fase5 implements IFase {
 
     @Override
@@ -39,6 +46,13 @@ public class Fase5 implements IFase {
             fase.add(new Parede("ZPisoPreto.png", i, 14));
             fase.add(new Parede("ZPisoPreto.png", i, 15));
         }
+        
+        
+        fase.add(new Municao("HeroiProjetil.png", 1, 1));
+        fase.add(new Municao("HeroiProjetil.png", 1, 10));
+        fase.add(new Municao("HeroiProjetil.png", 10, 10));
+        fase.add(new Municao("HeroiProjetil.png", 10, 1));
+        
         
         return fase;
     }
