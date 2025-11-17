@@ -18,19 +18,15 @@ public class CreditosFinais implements IFase {
     public ArrayList<Personagem> carregarPersonagensIniciais() {
         ArrayList<Personagem> fase = new ArrayList<>();
 
-        // 1. Adiciona o Herói (obrigatório para a fase funcionar)
+        // Adiciona o Herói (obrigatório para a fase funcionar)
         fase.add(new Hero("Heroi.png", 4, 4)); // Posição central
-
-        // 2. Adiciona as Mensagens (NÃO-BLOQUEANTES)
-        // O 'false' no construtor da Mensagem é a chave!
-        fase.add(new Mensagem("Criado por:\nFelipe Machuca\nFelipe Maia\nMatheus Gaubeur\nRafael Borges Brosco", false));
         
-        // 3. Adiciona o Portal de volta ao Lobby
+        // Adiciona o Portal de volta ao Lobby
         Portal portalLobby = new Portal("ZPortaFinal.png", 10, 10); // Canto inferior direito
         portalLobby.setDestinoFase(0); // 0 = Lobby
         fase.add(portalLobby);
 
-        // 4. Adiciona as Paredes (Bordas)
+        // Adiciona as Paredes (Bordas)
         for (int i = 0; i < 12; i++) {
             fase.add(new Parede("ZPisoPreto.png", 0, i));
             fase.add(new Parede("ZPisoPreto.png", 11, i));
@@ -40,7 +36,7 @@ public class CreditosFinais implements IFase {
             fase.add(new Parede("ZPisoPreto.png", i, 11));
         }
         
-        // 5. Completa a área externa com tiles pretos
+        // Completa a área externa com tiles pretos
         for (int i = 0; i < 12; i++) {
             fase.add(new Parede("ZPisoPreto.png", 12, i));
             fase.add(new Parede("ZPisoPreto.png", 13, i));
@@ -92,6 +88,7 @@ public class CreditosFinais implements IFase {
 
     @Override
     public String getMensagemVitoria() {
-        return null; // Não tem mensagem de vitória, a própria fase é a vitória
+        return null;
     }
+
 }
