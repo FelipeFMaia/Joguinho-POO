@@ -5,7 +5,7 @@ import Modelo.Personagem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//Vai e Vem Horizontal (esquerda-direita).
+// Vai e Vem Horizontal (esquerda-direita).
 public class MovimentoVaiVemHorizontal implements Serializable, ComportamentoMovimento {
     private static final long serialVersionUID = 1L;
 
