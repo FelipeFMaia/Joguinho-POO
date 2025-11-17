@@ -9,7 +9,6 @@ import Modelo.Municao;
 import Auxiliar.Posicao;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
-// ... (outros imports)
 
 public class Fase5 implements IFase {
 
@@ -17,13 +16,13 @@ public class Fase5 implements IFase {
     public ArrayList<Personagem> carregarPersonagensIniciais() {
         ArrayList<Personagem> fase = new ArrayList<>();
         
-        // 1. Adiciona o Herói
+        // Adiciona o Herói
         fase.add(new Hero("Heroi.png", 1, 1)); // Canto superior esquerdo
         
-        // 2. Adiciona o BossFinal
+        // Adiciona o BossFinal
         fase.add(new BossFinal("BOSS.png", 7, 7)); // No centro
 
-        // 4. Adiciona as Paredes
+        // Adiciona as Paredes
         for (int i = 0; i < 12; i++) {
             fase.add(new Parede("BossParede.png", 0, i));
             fase.add(new Parede("BossParede.png", 11, i));
@@ -33,7 +32,7 @@ public class Fase5 implements IFase {
             fase.add(new Parede("BossParede.png", i, 11));
         }
         
-        // 5. Completa a área externa com tiles pretos
+        // Completa a área externa com tiles pretos
         for (int i = 0; i < 12; i++) {
             fase.add(new Parede("ZPisoPreto.png", 12, i));
             fase.add(new Parede("ZPisoPreto.png", 13, i));
@@ -47,12 +46,11 @@ public class Fase5 implements IFase {
             fase.add(new Parede("ZPisoPreto.png", i, 15));
         }
         
-        
+        // Disponibiliza municao para enfrentar o boss
         fase.add(new Municao("HeroiProjetil.png", 1, 1));
         fase.add(new Municao("HeroiProjetil.png", 1, 10));
         fase.add(new Municao("HeroiProjetil.png", 10, 10));
         fase.add(new Municao("HeroiProjetil.png", 10, 1));
-        
         
         return fase;
     }
@@ -77,6 +75,7 @@ public class Fase5 implements IFase {
     
     @Override
     public String getMensagemVitoria() {
-        return "Parabéns, héroi!\nVocê conseguiu vencer essa jornada incrível! Você é demais!";
+        return "Parabéns, héroi!\nVenceu essa jornada incrível!\n Você é demais!";
     }
+
 }
