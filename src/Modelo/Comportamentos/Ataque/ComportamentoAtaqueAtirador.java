@@ -4,7 +4,7 @@ import Auxiliar.Consts;
 import Modelo.Personagem;
 import java.io.Serializable;
 
-//Esta é a lógica que controla o timer e usa para criar o projétil,
+// Esta é a lógica que controla o timer e usa para criar o projétil,
 public class ComportamentoAtaqueAtirador implements Serializable, ComportamentoAtaque {
     private static final long serialVersionUID = 1L;
     
