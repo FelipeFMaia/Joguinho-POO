@@ -9,6 +9,7 @@ import java.io.Serializable;
 import Modelo.Hero;
 import Modelo.Mortal;
 
+// Unico inimigo com implementacao desse projeto nessa forma.
 class FabricaBolha implements IFabricaProjetil {
     @Override
     public Personagem criarProjetil(Posicao p) {
@@ -30,7 +31,6 @@ public class Morsa extends Personagem implements Serializable, Mortal {
     
     @Override
     public String aoColidirComHeroi(Hero h) {
-        return "HERO_DIED"; // Isso fará com que processaTudo retorne "HERO_DIED"
+        return "HERO_DIED";
     }
-
 }
