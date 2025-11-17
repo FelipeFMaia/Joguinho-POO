@@ -13,7 +13,7 @@ public class AtaqueEmV implements Serializable, ComportamentoAtaque {
     private static final long serialVersionUID = 1L;
     private int contador = 0;
     
-    // Define o cooldown do ataque (ex: 30 ticks * 150ms = 4.5 segundos)
+    // Cooldown do ataque (ex: 30 ticks * 150ms = 4.5 segundos)
     private static final int INTERVALO = 30; 
     
     private final String nomeImagemProjetil;
@@ -35,7 +35,7 @@ public class AtaqueEmV implements Serializable, ComportamentoAtaque {
         // O timer chegou.
         contador = 0; // Reseta o timer
 
-        // Define o ponto de "nascimento" dos projéteis.
+        // Define origem dos projéteis.
         int linhaSpawn = p.getPosicao().getLinha();
         int colunaSpawn = p.getPosicao().getColuna() + 1; // +1 para não nascer em cima do atirador
 
@@ -48,8 +48,9 @@ public class AtaqueEmV implements Serializable, ComportamentoAtaque {
             this.nomeImagemProjetil, linhaSpawn, colunaSpawn
         );
 
-        // Adiciona os projéteis ao jogo
+        // Adiciona os projéteis
         Desenho.acessoATelaDoJogo().addPersonagem(pCima);
         Desenho.acessoATelaDoJogo().addPersonagem(pBaixo);
     }
 }
+
