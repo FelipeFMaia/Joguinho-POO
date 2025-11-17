@@ -7,11 +7,7 @@ import Modelo.Personagem;
 import Modelo.Portal;
 import java.util.ArrayList;
 
-/**
- * Fase 6: Tela de Créditos.
- * Implementada como uma fase real, jogável, que não pausa
- * e tem um portal de volta ao Lobby.
- */
+/Fase 6: Tela de Créditos.
 public class CreditosFinais implements IFase {
 
     @Override
@@ -67,8 +63,6 @@ public class CreditosFinais implements IFase {
                 + "Matheus Acquesta Gaubeur\n"
                 + "Rafael Borges Brosco\n";
     }
-
-    // --- Métodos da Interface que não usamos aqui ---
     
     @Override
     public ArrayList<Personagem> getPersonagensColeta_1() {
@@ -94,4 +88,5 @@ public class CreditosFinais implements IFase {
     public String getMensagemVitoria() {
         return null; // Não tem mensagem de vitória, a própria fase é a vitória
     }
+
 }
