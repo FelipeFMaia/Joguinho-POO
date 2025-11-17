@@ -6,7 +6,7 @@ import Auxiliar.Posicao;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//Estratégia de Movimento que persegue o Herói.
+// Estratégia de Movimento que persegue o Herói.
 public class MovimentoChaser implements Serializable, ComportamentoMovimento {
     private static final long serialVersionUID = 1L;
 
