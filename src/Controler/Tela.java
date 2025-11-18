@@ -81,8 +81,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public Tela() {
         initComponents();
         
-        // As configurações que usam 'this' foram movidas para Main.java.
-        
         this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
                 Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
@@ -247,7 +245,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             }
         }
         
-        // --- LÓGICA DE JOGO ---
+        //  LÓGICA DE JOGO 
         if (!this.faseAtual.isEmpty()) {
 
             // PASSO 1: ATUALIZA LÓGICA
@@ -494,7 +492,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 }
             // Salva elemento .gz para fazer Drag-and-Drop
             } 
-            // Comandos do Editor de Mapas (Pincéis)
+            // Comandos do Editor de Mapas
             else if (e.getKeyCode() == KeyEvent.VK_1) {
                 System.out.println("Parede Pantano Adicionado em:");
                 salvarPincelGZ(new Parede("PantanoParede2.png", 0, 0), "PantanoParede");
@@ -554,7 +552,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             return;
         }
         
-        // Se Botão Esquerdo + CTRL, usa o Pincel (Editor)
+        // Se Botão Esquerdo + CTRL, usa o Pincel
         if (SwingUtilities.isLeftMouseButton(e) && isControlPressed && arquivoPincel != null) {
             Point clickPoint = e.getPoint(); 
             adicionarPersonagemDoArquivo(this.arquivoPincel, clickPoint);
@@ -662,9 +660,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    }
 
 // Implementações de Interface (Deixadas vazias, mas necessárias)
     @Override public void mouseClicked(MouseEvent e) { }
@@ -687,9 +683,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     
     
-    // ---------------------------------------------------------------- //
     // MÉTODOS DE DRAG-AND-DROP (EDITOR DE MAPAS)
-    // ---------------------------------------------------------------- //
+
 
     @Override
     public void drop(DropTargetDropEvent e) {
@@ -753,9 +748,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     @Override public void dropActionChanged(DropTargetDragEvent e) { }
     @Override public void dragExit(DropTargetEvent e) { }
     
-    // ---------------------------------------------------------------- //
+
     // FIM DOS MÉTODOS DE DRAG-AND-DROP
-    // ---------------------------------------------------------------- //
     
     /** Método auxiliar para criar um "pincel" serializado .gz de um personagem (Editor). */
     private void salvarPincelGZ(Personagem p, String nomeArquivo) {
@@ -844,12 +838,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             int C = p.getPosicao().getColuna(); // Coluna
             
             String linhaCodigo = "// Classe desconhecida: " + p.getClass().getSimpleName();
-
-            // Este 'if-else if' é o núcleo da ferramenta.
-            // Ele associa a CLASSE do objeto ao código-fonte para criá-lo.
-            
-            // ATENÇÃO: Os nomes das imagens (ex: "FogoParede.png") estão
-            // baseados no seu código de 'keyPressed'. Ajuste se necessário.
             
             if (p instanceof Parede) {
                 // Assume que Parede usa "FogoParede.png" ou "FogoPiso1.png"

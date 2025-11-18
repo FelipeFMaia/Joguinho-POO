@@ -23,7 +23,6 @@ public class MovimentoVaiVemVertical implements Serializable, ComportamentoMovim
     public void executar(Personagem p, ArrayList<Personagem> faseAtual, Hero hero) {
         if (contadorDeFrames == velocidade) {
             contadorDeFrames = 0;
-            // Chama o "O QUÊ"
             this.proximoMovimento(p); 
         }
         contadorDeFrames++;

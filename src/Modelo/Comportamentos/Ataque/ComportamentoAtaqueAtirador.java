@@ -4,7 +4,7 @@ import Auxiliar.Consts;
 import Modelo.Personagem;
 import java.io.Serializable;
 
-//Esta é a lógica que controla o timer e usa para criar o projétil,
+// Lógica que controla o timer e usada para criar o projétil,
 public class ComportamentoAtaqueAtirador implements Serializable, ComportamentoAtaque {
     private static final long serialVersionUID = 1L;
     
@@ -22,7 +22,7 @@ public class ComportamentoAtaqueAtirador implements Serializable, ComportamentoA
         if(this.iContaIntervalos == Consts.TIMER) {
             this.iContaIntervalos = 0;
             
-            // Usa a fábrica para criar o projétil correto
+            // Usa a fábrica para criar o projétil 
             Personagem projetil = this.fabricaProjetil.criarProjetil(p.getPosicao());
             
             // Adiciona o projétil ao jogo
@@ -30,3 +30,4 @@ public class ComportamentoAtaqueAtirador implements Serializable, ComportamentoA
         }
     }
 }
+

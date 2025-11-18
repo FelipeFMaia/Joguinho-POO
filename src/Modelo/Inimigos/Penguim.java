@@ -13,12 +13,12 @@ public class Penguim extends Personagem implements Serializable, Mortal {
     public Penguim(String sNomeImagePNG, int linha, int coluna){
         super(sNomeImagePNG, linha, coluna);
         this.setbTransponivel(false);
-        setComportamentoMovimento(new MovimentoCircular(10)); // Já é o padrão
+        setComportamentoMovimento(new MovimentoCircular(10));
         setComportamentoAtaque(new AtaqueEmV("GeloProjetil.png"));
     }
     
     @Override
     public String aoColidirComHeroi(Hero h) {
-        return "HERO_DIED"; // Isso fará com que processaTudo retorne "HERO_DIED"
+        return "HERO_DIED";
     }
 }

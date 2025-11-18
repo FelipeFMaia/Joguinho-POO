@@ -17,10 +17,10 @@ public class Fase2 implements IFase {
         try (FileInputStream fis = new FileInputStream("fase2_layout.dat");
              ObjectInputStream serializador = new ObjectInputStream(fis)) {
 
-            // 1. Carrega o objeto de save do arquivo
+            // Carrega o objeto de save do arquivo
             SaveState save = (SaveState) serializador.readObject();
 
-            // 2. Adiciona todos os personagens do save na lista da fase
+            // Adiciona todos os personagens do save na lista da fase
             fase.addAll(save.faseAtual);
 
         } catch (Exception ex) {
@@ -44,9 +44,7 @@ public class Fase2 implements IFase {
         fase.add(new Bau("ZBau.png",27,20));
         
         fase.add(new Municao("HeroiProjetil.png", 7, 2));
-        fase.add(new Municao("HeroiProjetil.png", 15, 9));
-        fase.add(new Municao("HeroiProjetil.png", 32, 32));
-        fase.add(new Municao("HeroiProjetil.png", 2, 48));
+        fase.add(new Municao("HeroiProjetil.png", 15, 8));
 
         // Bolas de fogo caindo do ceu
         fase.add(new SpawnerBolaFogo(0, 0));
@@ -68,6 +66,7 @@ public class Fase2 implements IFase {
         mods.add(new SpawnerBolaFogo(0, 9));
         mods.add(new SpawnerBolaFogo(0, 17));
         mods.add(new SpawnerBolaFogo(0, 24));  
+        mods.add(new Municao("HeroiProjetil.png", 13, 26));
         return mods;
     }
 
@@ -80,7 +79,8 @@ public class Fase2 implements IFase {
         mods.add(new SpawnerBolaFogo(0, 4));
         mods.add(new SpawnerBolaFogo(0, 10));
         mods.add(new SpawnerBolaFogo(0, 19));
-        mods.add(new SpawnerBolaFogo(0, 27));          
+        mods.add(new SpawnerBolaFogo(0, 27));   
+        mods.add(new Municao("HeroiProjetil.png", 29, 22));
         return mods;
     }
 
@@ -106,4 +106,6 @@ public class Fase2 implements IFase {
     public String getMensagemVitoria() {
         return "Parabéns, héroi!\nVocê conseguiu vencer o calor!"; //
     }
+
 }
+

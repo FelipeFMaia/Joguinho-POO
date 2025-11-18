@@ -18,10 +18,10 @@ public class Fase1 implements IFase {
         try (FileInputStream fis = new FileInputStream("fase1_layout.dat");
              ObjectInputStream serializador = new ObjectInputStream(fis)) {
 
-            // 1. Carrega o objeto de save do arquivo
+            // Carrega o objeto de save do arquivo
             SaveState save = (SaveState) serializador.readObject();
 
-            // 2. Adiciona todos os personagens do save na lista da fase
+            // Adiciona todos os personagens do save na lista da fase
             fase.addAll(save.faseAtual);
 
         } catch (Exception ex) {
@@ -48,7 +48,7 @@ public class Fase1 implements IFase {
         fase.add(new Municao("HeroiProjetil.png", 7, 2));
         fase.add(new Municao("HeroiProjetil.png", 15, 9));
         fase.add(new Municao("HeroiProjetil.png", 32, 32));
-        fase.add(new Municao("HeroiProjetil.png", 2, 48));
+        fase.add(new Municao("HeroiProjetil.png", 2, 35));
         
         return fase;
     }
@@ -59,7 +59,7 @@ public class Fase1 implements IFase {
         mods.add(new Penguim("GeloPinguim.png", 17, 17));
         mods.add(new Artefato("GeloArtefato.png", 13, 39));
         mods.add(new Municao("HeroiProjetil.png", 15, 9));
-        mods.add(new Urso("GeloUrso.png", 18, 35));        
+        mods.add(new Urso("GeloUrso.png", 18, 29));        
         return mods;
     }
 
@@ -93,3 +93,5 @@ public class Fase1 implements IFase {
         return "Você superou a neve o gelo \ne encontrou os artefatos!\nFase concluída!";
     }
 }
+
+

@@ -42,7 +42,6 @@ public class ControleDeJogo {
 
                     // Se o 'outro' objeto também não for transponível e as posições são iguais (colisão).
                     if (j > 0 && !outro.isbTransponivel() && p.getPosicao().igual(outro.getPosicao())) {
-                        // Manda o personagem 'p' de volta para a última posição (ex: bateu numa parede)
                         p.voltaAUltimaPosicao();
                         break; 
                     }
@@ -121,4 +120,5 @@ public class ControleDeJogo {
         }
         return true;
     }
+
 }

@@ -6,11 +6,8 @@ import Modelo.Personagem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Este é um Personagem invisível que atua como um "Spawner".
- * Sua única função é adicionar BolasDeFogo ao jogo em intervalos
- * de tempo.
- */
+// Este é um Personagem invisível que atua como um "Spawner".
+// A única função é adicionar BolasDeFogo ao jogo em intervalos de tempo.
 public class SpawnerBolaFogo extends Personagem implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -20,7 +17,7 @@ public class SpawnerBolaFogo extends Personagem implements Serializable {
     private static final int TEMPO_DE_SPAWN = 100; 
 
     public SpawnerBolaFogo(int linha, int coluna) {
-        // Usa uma imagem placeholder (pode ser qualquer uma), pois será invisível
+        // Usa uma imagem placeholder, pois será invisível
         super("blackTile.png", linha, coluna); 
         
         this.bTransponivel = true; // O Herói pode passar por cima
@@ -30,22 +27,21 @@ public class SpawnerBolaFogo extends Personagem implements Serializable {
 
     @Override
     public void atualizar(ArrayList<Personagem> e, Hero h) {
-        // 1. Contar o timer
+        // Contar o timer
         timer--;
 
-        // 2. Se o timer zerar...
+        // Se o timer zerar...
         if (timer <= 0) {
             
-            // 3. Criar a BolaDeFogo na posição EXATA deste Spawner
+            // Criar a BolaDeFogo na posição EXATA deste Spawner
             BolaDeFogo novaBola = new BolaDeFogo("FogoMeteoro.png", 
                                                 this.pPosicao.getLinha(), 
                                                 this.pPosicao.getColuna());
             
-            // 4. Adicionar a bola de fogo à tela
-            // (Usamos o Desenho para acessar a lista de personagens da Tela)
+            // Adicionar a bola de fogo à tela
             Desenho.acessoATelaDoJogo().addPersonagem(novaBola);
             
-            // 5. Resetar o timer
+            // Resetar o timer
             timer = delay;
         }
     }

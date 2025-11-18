@@ -10,7 +10,7 @@ public class MovimentoQuadrado implements Serializable, ComportamentoMovimento {
 
     private final int tamanhoDoLado;
     private int passosRestantes;
-    private int direcaoAtual; // 0: Cima, 1: Direita, 2: Baixo, 3: Esquerda
+    private int direcaoAtual; // Cima, 1: Direita, 2: Baixo, 3: Esquerda
     
     private int contadorDeFrames;
     private final int velocidade;

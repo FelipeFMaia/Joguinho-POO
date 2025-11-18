@@ -7,6 +7,7 @@ import java.io.Serializable;
 import Modelo.Hero;
 import Modelo.Mortal;
 
+// Tipo de inimigo "especial" que atravessa o mapa todo no mundo do fogo.
 public class BolaDeFogo extends Personagem implements Serializable, Mortal {
     private static final long serialVersionUID = 1L;
     
@@ -19,7 +20,7 @@ public class BolaDeFogo extends Personagem implements Serializable, Mortal {
     
     @Override
     public String aoColidirComHeroi(Hero h) {
-        return "HERO_DIED"; // Isso fará com que processaTudo retorne "HERO_DIED"
+        return "HERO_DIED";"
     }
 
 }

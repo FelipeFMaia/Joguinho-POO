@@ -5,11 +5,11 @@ import Modelo.Personagem;
 import java.util.ArrayList;
 import java.io.Serializable;
 
-//Circular (Horário), que vira ao bater na parede.
+// Circular (Horário), que vira ao bater na parede.
 public class MovimentoCircular implements Serializable, ComportamentoMovimento {
     private static final long serialVersionUID = 1L;
 
-    // 0: Direita, 1: Baixo, 2: Esquerda, 3: Cima
+    // Direita, 1: Baixo, 2: Esquerda, 3: Cima
     private int direcaoAtual; 
     private int contadorDeFrames;
     private int velocidade;
