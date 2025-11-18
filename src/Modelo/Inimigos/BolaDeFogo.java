@@ -20,7 +20,8 @@ public class BolaDeFogo extends Personagem implements Serializable, Mortal {
     
     @Override
     public String aoColidirComHeroi(Hero h) {
-        return "HERO_DIED";"
+        return "HERO_DIED";
     }
 
 }
+
